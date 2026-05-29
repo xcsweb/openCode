@@ -1,0 +1,41 @@
+{
+  "name": "opencode-cli",
+  "version": "1.0.0",
+  "description": "A modern CLI tool for code management and automation",
+  "main": "dist/index.js",
+  "bin": {
+    "opencode": "bin/opencode"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts",
+    "test": "jest",
+    "start": "node bin/opencode"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1",
+    "ink": "^5.0.1",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "typescript": "^5.4.5",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
+    "prettier": "^3.3.2",
+    "ts-node": "^10.9.2"
+  },
+  "keywords": [
+    "cli",
+    "code",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT"
+}

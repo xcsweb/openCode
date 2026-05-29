@@ -1,12 +1,12 @@
 # Tasks
 
 ## 第一阶段：CLI工具基础架构（优先）
-- [ ] Task 1: 初始化项目基础结构
-  - [ ] SubTask 1.1: 创建package.json（设置bin字段指向CLI入口）
-  - [ ] SubTask 1.2: 配置TypeScript编译（tsconfig.json）
-  - [ ] SubTask 1.3: 配置开发工具链（eslint, prettier）
-  - [ ] SubTask 1.4: 创建CLI入口文件（bin/opencode）
-  - [ ] SubTask 1.5: 创建CLI命令解析器（使用commander或类似库）
+- [x] Task 1: 初始化项目基础结构
+  - [x] SubTask 1.1: 创建package.json（设置bin字段指向CLI入口）
+  - [x] SubTask 1.2: 配置TypeScript编译（tsconfig.json）
+  - [x] SubTask 1.3: 配置开发工具链（eslint, prettier）
+  - [x] SubTask 1.4: 创建CLI入口文件（bin/opencode）
+  - [x] SubTask 1.5: 创建CLI命令解析器（使用commander或类似库）
 
 - [ ] Task 2: 实现CLI终端交互界面
   - [ ] SubTask 2.1: 实现交互式对话界面（使用ink或类似终端UI库）
@@ -67,9 +67,9 @@
   - [ ] SubTask 9.5: 实现水位线告警
 
 ## 第四阶段：系统设置与配置管理
-- [ ] Task 10: 实现系统设置与配置管理
-  - [ ] SubTask 10.1: 实现配置管理系统（JSON/YAML读写、优先级处理）
-  - [ ] SubTask 10.2: 实现模型配置（添加/编辑/删除模型提供商）
+- [x] Task 10: 实现系统设置与配置管理
+  - [x] SubTask 10.1: 实现配置管理系统（JSON/YAML读写、优先级处理）
+  - [x] SubTask 10.2: 实现模型配置（添加/编辑/删除模型提供商）
   - [ ] SubTask 10.3: 实现模型能力标签系统
   - [ ] SubTask 10.4: 实现模型分组功能
   - [ ] SubTask 10.5: 实现API Key加密存储

@@ -3,6 +3,13 @@ import * as path from 'path';
 import * as os from 'os';
 
 export interface OpenCodeConfig {
+  apiKeys?: {
+    groq?: string;
+    openrouter?: string;
+    openai?: string;
+    anthropic?: string;
+  };
+  defaultModel?: string;
   models: ModelConfig[];
   experts: ExpertConfig[];
   plugins: PluginConfig;
@@ -14,11 +21,14 @@ export interface ModelConfig {
   id: string;
   name: string;
   provider: string;
-  apiKey: string;
-  apiUrl: string;
+  apiKey?: string;
+  apiUrl?: string;
   modelName: string;
   capabilities: string[];
   group: string;
+  maxTokens?: number;
+  temperature?: number;
+  topP?: number;
 }
 
 export interface ExpertConfig {
@@ -51,9 +61,52 @@ export interface PerformanceConfig {
 
 const DEFAULT_CONFIG_PATH = path.join(os.homedir(), '.opencode', 'config.json');
 
+export const PRESET_PROVIDERS = {
+  groq: {
+    name: 'Groq',
+    apiUrl: 'https://api.groq.com/openai/v1',
+    models: [
+      { id: 'llama-3.3-70b-versatile', name: 'Llama 3.3 70B Versatile' },
+      { id: 'llama-3.1-70b-versatile', name: 'Llama 3.1 70B Versatile' },
+      { id: 'llama-3.1-8b-instant', name: 'Llama 3.1 8B Instant' },
+    ],
+  },
+  openrouter: {
+    name: 'OpenRouter',
+    apiUrl: 'https://openrouter.ai/api/v1',
+    models: [
+      { id: 'anthropic/claude-3.5-sonnet', name: 'Claude 3.5 Sonnet' },
+      { id: 'openai/gpt-4o', name: 'GPT-4o' },
+    ],
+  },
+};
+
 const DEFAULT_CONFIG: OpenCodeConfig = {
-  models: [],
-  experts: [],
+  apiKeys: {},
+  defaultModel: 'groq/llama-3.3-70b-versatile',
+  models: [
+    {
+      id: 'groq/llama-3.3-70b-versatile',
+      name: 'Groq Llama 3.3 70B',
+      provider: 'groq',
+      modelName: 'llama-3.3-70b-versatile',
+      apiUrl: 'https://api.groq.com/openai/v1',
+      capabilities: ['text-generation', 'code-generation', 'code-analysis'],
+      group: 'default',
+      maxTokens: 8192,
+      temperature: 0.7,
+      topP: 1,
+    },
+  ],
+  experts: [
+    {
+      id: 'default',
+      name: 'General Assistant',
+      systemPrompt: 'You are a helpful assistant.',
+      modelId: 'groq/llama-3.3-70b-versatile',
+      specialties: ['general'],
+    },
+  ],
   plugins: {
     enabled: [],
     disabled: [],
@@ -121,4 +174,28 @@ export async function updateConfig(updates: Partial<OpenCodeConfig>): Promise<Op
   const updated = { ...config, ...updates };
   await saveConfig(updated);
   return updated;
+}
+
+export async function setApiKey(provider: string, key: string): Promise<OpenCodeConfig> {
+  const config = await loadConfig();
+  if (!config.apiKeys) config.apiKeys = {};
+  config.apiKeys[provider as keyof typeof config.apiKeys] = key;
+  await saveConfig(config);
+  return config;
+}
+
+export async function getApiKey(provider: string): Promise<string | undefined> {
+  const config = await loadConfig();
+  return config.apiKeys?.[provider as keyof typeof config.apiKeys];
+}
+
+export function getConfigPath(): string {
+  return DEFAULT_CONFIG_PATH;
+}
+
+export function ensureConfigDir(): void {
+  const dir = path.dirname(DEFAULT_CONFIG_PATH);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
 }

@@ -473,15 +473,40 @@ npm link
 
 ### 配置
 
-1. 获取免费API Key（推荐Groq）: https://console.groq.com/
+**最简单的方式：使用交互式设置向导**
 
-2. 编辑配置文件 `~/.opencode/config.json`:
+```bash
+opencode settings setup
+```
+
+向导会引导你选择 AI 提供商并配置 API Key。
+
+---
+
+**手动配置：**
+
+1. 获取免费 API Key：
+   - **Groq（推荐）**: https://console.groq.com/keys
+   - **OpenRouter**: https://openrouter.ai/keys
+
+2. 配置 API Key：
+```bash
+opencode settings api-key groq your-groq-api-key-here
+```
+
+或者直接编辑配置文件 `~/.opencode/config.json`：
 ```json
 {
   "apiKeys": {
     "groq": "your-groq-api-key-here"
   }
 }
+```
+
+### 查看配置
+
+```bash
+opencode settings show
 ```
 
 ### 使用

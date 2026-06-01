@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const { Command } = require('commander');
+const pkg = require('../package.json');
+
+const program = new Command();
+
+program
+  .name('opencode')
+  .description('A modern CLI tool for code management and automation')
+  .version(pkg.version);
+
+// Load commands dynamically
+try {
+  const { registerCommands } = require(path.join(__dirname, '../dist/commands/index.js'));
+  registerCommands(program);
+} catch (e) {
+  // If dist is not built yet, show help
+  console.log('');
+}
+
+program.parse(process.argv);
+
+// Show help if no command is provided
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
